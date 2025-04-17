@@ -6,6 +6,9 @@ import tipoUsuarioRoutes from "./routes/TipoUsuarioRoutes.js"
 import cargoRoutes from "./routes/CargoRoutes.js"
 import loginRoutes from "./routes/loginRoutes.js"
 import sucursalRoutes from "./routes/SucursalRoutes.js"
+import marcaRoutes from "./routes/marcaRoutes.js"
+import modeloRoutes from "./routes/modeloRoutes.js"
+import equipoRoutes from "./routes/equipoRoutes.js"
 
 dotenv.config();
 const app = express();
@@ -18,6 +21,9 @@ app.use("/api/cargo", cargoRoutes);
 app.use("/api/sucursal", sucursalRoutes);
 app.use("/api/tipo-usuario",tipoUsuarioRoutes)
 app.use("/api/auth", loginRoutes);
+app.use("/api/marca", marcaRoutes);
+app.use("/api/modelo", modeloRoutes);
+app.use("/api/equipo", equipoRoutes);
 
 
 const PORT = process.env.PORT || 5000;
