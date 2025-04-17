@@ -11,6 +11,4 @@ const TipoUsuario = sequelize.define("TipoUsuario", {
         timestamps: false,
         schema: "eic-app",
     });
-
-
 export default TipoUsuario;
