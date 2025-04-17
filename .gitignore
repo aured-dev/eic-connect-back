@@ -1,0 +1,39 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*.local
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Optional: if you're using dist or build folder
+dist/
+build/
+
+# Optional: if you're using coverage tools like Jest
+coverage/
+
+# Optional: if you're using SQLite or other local DBs
+*.sqlite
+*.sqlite3
+*.db
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.swp
+
+# Optional: for Railway or other deployments
+.railway/
