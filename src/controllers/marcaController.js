@@ -13,10 +13,17 @@ export const obtenerMarcas = async (req, res) => {
 // Crear nueva marca
 export const crearMarca = async (req, res) => {
   try {
-    const nuevaMarca = await Marca.create(req.body);
+    const { descripcion } = req.body;
+    if (!descripcion) {
+      return res.status(400).json({ error: "La descripción es obligatoria." });
+    }
+    const nuevaMarca = await Marca.create({ descripcion }); 
     res.status(201).json(nuevaMarca);
   } catch (error) {
-    res.status(400).json({ error: "Error al crear la marca", detalles: error.message });
+    res.status(400).json({
+      error: "Error al crear la marca",
+      detalles: error.message
+    });
   }
 };
 
