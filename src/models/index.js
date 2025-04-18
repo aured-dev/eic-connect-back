@@ -75,7 +75,6 @@ OrdenTrabajo.hasMany(DetalleOrdenEquipo, { foreignKey: 'orden_trabajo_id' });
 DetalleOrdenEquipo.belongsTo(OrdenTrabajo, { foreignKey: 'orden_trabajo_id' });
 
 DetalleOrdenEquipo.belongsTo(Equipo, { foreignKey: 'equipo_id' });
-DetalleOrdenEquipo.hasMany(ComponenteEquipo, { foreignKey: 'detalle_orden_equipo_id' });
 
 ComponenteEquipo.hasMany(InspeccionComponente, { foreignKey: 'componente_equipo_id' });
 InspeccionComponente.belongsTo(ComponenteEquipo, { foreignKey: 'componente_equipo_id' });
@@ -122,6 +121,11 @@ ImagenNovedad.belongsTo(NovedadCorrectiva, {
   foreignKey: "novedad_correctiva_id"
 });
 
+Equipo.hasMany(ComponenteEquipo, { foreignKey: "equipo_id", as: "componentes" });
+ComponenteEquipo.belongsTo(Equipo, { foreignKey: "equipo_id" });
+
+Equipo.belongsTo(Usuario, { foreignKey: "cliente_id", as: "cliente" });
+Usuario.hasMany(Equipo, { foreignKey: "cliente_id", as: "equipos" });
 
 // Exportar todos los modelos y sequelize
 export {

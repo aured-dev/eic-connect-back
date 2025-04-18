@@ -27,11 +27,16 @@ const Equipo = sequelize.define("Equipo", {
     type: DataTypes.ENUM("activo", "inactivo"),
     allowNull: false,
   },
+  cliente_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  }
 }, {
   tableName: "equipo",
   timestamps: false,
   schema: "eic-app", 
-});
+}
+);
 
 export default Equipo;
 

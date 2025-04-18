@@ -24,7 +24,7 @@ app.use("/api/auth", loginRoutes);
 app.use("/api/marca", marcaRoutes);
 app.use("/api/modelo", modeloRoutes);
 app.use("/api/equipo", equipoRoutes);
-
+app.use("/api/imagenes", require("./routes/Upload.js"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
