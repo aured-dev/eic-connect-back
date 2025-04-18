@@ -1,4 +1,5 @@
 import Modelo from "../models/Modelo.js";
+import Marca from "../models/Marca.js";
 
 // Obtener todos los modelos
 export const obtenerModelos = async (req, res) => {
@@ -54,5 +55,20 @@ export const eliminarModelo = async (req, res) => {
     res.json({ mensaje: "Modelo eliminado correctamente" });
   } catch (error) {
     res.status(500).json({ error: "Error al eliminar el modelo" });
+  }
+};
+
+// Obtener todos los modelos con su marca asociada
+export const obtenerModelosPorMarca = async (req, res) => {
+  try {
+    const modelos = await Modelo.findAll({
+      include: {
+        model: Marca,
+        attributes: ["id", "descripcion"], // trae solo los campos que necesitas
+      }
+    });
+    res.json(modelos);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener los modelos", detalles: error.message });
   }
 };
