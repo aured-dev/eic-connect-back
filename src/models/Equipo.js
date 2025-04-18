@@ -1,6 +1,9 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
+import Marca from "./Marca.js"; 
+import Modelo from "./Modelo.js"; 
+
 const Equipo = sequelize.define("Equipo", {
   id: {
     type: DataTypes.INTEGER,
@@ -37,6 +40,12 @@ const Equipo = sequelize.define("Equipo", {
   schema: "eic-app", 
 }
 );
+
+// Asociación entre Equipo y Marca
+Equipo.belongsTo(Marca, { foreignKey: "marca_id" });
+
+// Asociación entre Equipo y Modelo
+Equipo.belongsTo(Modelo, { foreignKey: "modelo_id" });
 
 export default Equipo;
 

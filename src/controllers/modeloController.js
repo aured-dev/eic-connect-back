@@ -1,13 +1,18 @@
 import Modelo from "../models/Modelo.js";
 import Marca from "../models/Marca.js";
 
-// Obtener todos los modelos
+// Obtener todos los modelos con la marca asociada
 export const obtenerModelos = async (req, res) => {
   try {
-    const modelos = await Modelo.findAll();
+    const modelos = await Modelo.findAll({
+      include: {
+        model: Marca,
+        attributes: ["id", "descripcion"], // Seleccionamos solo los campos necesarios de Marca
+      },
+    });
     res.json(modelos);
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener los modelos" });
+    res.status(500).json({ error: "Error al obtener los modelos", detalles: error.message });
   }
 };
 
@@ -21,14 +26,19 @@ export const crearModelo = async (req, res) => {
   }
 };
 
-// Obtener modelo por ID
+// Obtener modelo por ID con la marca asociada
 export const obtenerModeloPorId = async (req, res) => {
   try {
-    const modelo = await Modelo.findByPk(req.params.id);
+    const modelo = await Modelo.findByPk(req.params.id, {
+      include: {
+        model: Marca,
+        attributes: ["id", "descripcion"], // Seleccionamos solo los campos necesarios de Marca
+      },
+    });
     if (!modelo) return res.status(404).json({ error: "Modelo no encontrado" });
     res.json(modelo);
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener el modelo" });
+    res.status(500).json({ error: "Error al obtener el modelo", detalles: error.message });
   }
 };
 
@@ -58,14 +68,15 @@ export const eliminarModelo = async (req, res) => {
   }
 };
 
-// Obtener todos los modelos con su marca asociada
+// Obtener todos los modelos por marca con la marca asociada
 export const obtenerModelosPorMarca = async (req, res) => {
   try {
     const modelos = await Modelo.findAll({
+      where: { marca_id: req.params.marcaId }, // Filtrar por marca_id si es necesario
       include: {
         model: Marca,
-        attributes: ["id", "descripcion"], // trae solo los campos que necesitas
-      }
+        attributes: ["id", "descripcion"], // Seleccionamos solo los campos necesarios de Marca
+      },
     });
     res.json(modelos);
   } catch (error) {

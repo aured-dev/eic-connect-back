@@ -1,10 +1,37 @@
+// controllers/EquipoController.js
 import Equipo from "../models/Equipo.js";
+import Modelo from "../models/Modelo.js";
+import Marca from "../models/Marca.js";
 import { camelToSnake } from "../utils/convertParameters.js";
 
 // Obtener todos los equipos
 export const obtenerEquipos = async (req, res) => {
   try {
-    const equipos = await Equipo.findAll();
+    const { marca_id, modelo_id } = req.query;
+
+    const condiciones = {};
+
+    if (marca_id) {
+      condiciones.marca_id = marca_id;
+    }
+    if (modelo_id) {
+      condiciones.modelo_id = modelo_id;
+    }
+
+    const equipos = await Equipo.findAll({
+      where: condiciones,
+      include: [
+        {
+          model: Marca,  // Sequelize usará 'marca' como nombre de relación predeterminado
+          attributes: ["id", "descripcion"],  // Seleccionamos los atributos que queremos de Marca
+        },
+        {
+          model: Modelo,  // Sequelize usará 'modelo' como nombre de relación predeterminado
+          attributes: ["id", "descripcion"],  // Seleccionamos los atributos que queremos de Modelo
+        }
+      ],
+    });
+
     res.json(equipos);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener los equipos", detalles: error.message });
@@ -16,7 +43,6 @@ export const crearEquipo = async (req, res) => {
   try {
     const datos = camelToSnake(req.body);
 
-    // Validar campos obligatorios
     const { serial, modelo_id, marca_id, estado } = datos;
     if (!serial || !modelo_id || !marca_id || !estado) {
       return res.status(400).json({ error: "Faltan campos obligatorios: serial, modelo_id, marca_id o estado." });
@@ -32,10 +58,23 @@ export const crearEquipo = async (req, res) => {
 // Obtener equipo por ID
 export const obtenerEquipoPorId = async (req, res) => {
   try {
-    const equipo = await Equipo.findByPk(req.params.id);
+    const equipo = await Equipo.findByPk(req.params.id, {
+      include: [
+        {
+          model: Marca,  // Sin 'as', Sequelize usará 'marca'
+          attributes: ["id", "descripcion"],
+        },
+        {
+          model: Modelo,  // Sin 'as', Sequelize usará 'modelo'
+          attributes: ["id", "descripcion"],
+        }
+      ],
+    });
+
     if (!equipo) {
       return res.status(404).json({ error: "Equipo no encontrado" });
     }
+
     res.json(equipo);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener el equipo", detalles: error.message });
