@@ -6,9 +6,7 @@ import Modelo from "./Modelo.js";
 import Usuario from "./Usuario.js";
 import DatosCliente from "./DatosCliente.js";
 import ValidacionTecnica from "./ValidacionTecnica.js"
-import Ciudad from "./ciudad.js";
 import Sucursal from "./sucursal.js";
-import Departamento from "./departamento.js";
 import TipoUsuario from "./tipousuario.js";
 import Cargo from "./cargo.js";
 import OrdenTrabajo from "./OrdenTrabajo.js";
@@ -22,110 +20,100 @@ import NovedadCorrectiva from "./NovedadCorrectiva.js";
 import InsumoNovedad from "./InsumoNovedad.js";
 import ImagenEquipo from "./ImagenEquipo.js";
 import ImagenNovedad from "./ImagenNovedad.js";
+import Ciudad from "./Ciudad.js";
+import Departamento from "./Departamento.js";
 
-// Asociaciones entre Marca, Modelo y Equipo
-Marca.hasMany(Modelo, { foreignKey: "marca_id" });
-Modelo.belongsTo(Marca, { foreignKey: "marca_id" });
+// ====================
+// Marca, Modelo, Equipo
+// ====================
+Marca.hasMany(Modelo, { foreignKey: "marca_id", as: "modelos" });
+Modelo.belongsTo(Marca, { foreignKey: "marca_id", as: "marca" });
 
-Marca.hasMany(Equipo, { foreignKey: "marca_id" });
-Modelo.hasMany(Equipo, { foreignKey: "modelo_id" });
-Equipo.belongsTo(Marca, { foreignKey: "marca_id" });
-Equipo.belongsTo(Modelo, { foreignKey: "modelo_id" });
+Marca.hasMany(Equipo, { foreignKey: "marca_id", as: "equipos" });
+Equipo.belongsTo(Marca, { foreignKey: "marca_id", as: "marca" });
 
-// Asociación Usuario <-> DatosCliente (1:1)
-Usuario.hasOne(DatosCliente, { foreignKey: "usuario_id" });
-DatosCliente.belongsTo(Usuario, { foreignKey: "usuario_id" });
+Modelo.hasMany(Equipo, { foreignKey: "modelo_id", as: "equipos" });
+Equipo.belongsTo(Modelo, { foreignKey: "modelo_id", as: "modelo" });
 
-//asociaciones tabla usuario
-Usuario.belongsTo(TipoUsuario, {foreignKey: "tipo_usuario_id", as: "tipoUsuario",});
-Usuario.belongsTo(Cargo, {foreignKey: "cargo_id", as: "cargo",});
-Usuario.belongsTo(Sucursal, {foreignKey: "sucursal_id", as: "sucursal",});
+// ====================
+// Usuario y DatosCliente (1:1)
+// ====================
+Usuario.hasOne(DatosCliente, { foreignKey: "usuario_id", as: "datosCliente" });
+DatosCliente.belongsTo(Usuario, { foreignKey: "usuario_id", as: "usuario" });
 
-TipoUsuario.hasMany(Usuario, {
-  foreignKey: "tipo_usuario_id",
-  as: "usuarios",
-});
+// ====================
+// Usuario y sus relaciones
+// ====================
+Usuario.belongsTo(TipoUsuario, { foreignKey: "tipo_usuario_id", as: "tipoUsuario" });
+TipoUsuario.hasMany(Usuario, { foreignKey: "tipo_usuario_id", as: "usuarios" });
+
+Usuario.belongsTo(Cargo, { foreignKey: "cargo_id", as: "cargo" });
 Cargo.hasMany(Usuario, { foreignKey: "cargo_id", as: "usuarios" });
+
+Usuario.belongsTo(Sucursal, { foreignKey: "sucursal_id", as: "sucursal" });
 Sucursal.hasMany(Usuario, { foreignKey: "sucursal_id", as: "usuarios" });
 
-
+// ====================
+// Sucursal, Ciudad, Departamento
+// ====================
 Sucursal.belongsTo(Ciudad, { foreignKey: "ciudad_id", as: "ciudad" });
 Ciudad.hasMany(Sucursal, { foreignKey: "ciudad_id", as: "sucursales" });
 
+Ciudad.belongsTo(Departamento, { foreignKey: "departamento_id", as: "departamento" });
+Departamento.hasMany(Ciudad, { foreignKey: "departamento_id", as: "ciudades" });
 
+// ====================
+// OrdenTrabajo y Detalles
+// ====================
+OrdenTrabajo.belongsTo(Usuario, { foreignKey: "cliente_id", as: "cliente" });
+OrdenTrabajo.belongsTo(Usuario, { foreignKey: "tecnico_id", as: "tecnico" });
+OrdenTrabajo.belongsTo(Usuario, { foreignKey: "registrador_id", as: "registrador" });
 
-Ciudad.belongsTo(Departamento, {
-  foreignKey: "departamento_id",
-  as: "departamento",
-});
+OrdenTrabajo.hasMany(DetalleOrdenEquipo, { foreignKey: "orden_trabajo_id", as: "detalles" });
+DetalleOrdenEquipo.belongsTo(OrdenTrabajo, { foreignKey: "orden_trabajo_id", as: "ordenTrabajo" });
 
-Departamento.hasMany(Ciudad, {
-  foreignKey: "departamento_id",
-  as: "ciudades",
-});
+DetalleOrdenEquipo.belongsTo(Equipo, { foreignKey: "equipo_id", as: "equipo" });
 
-
-//Relaciones orden de trabajo
-
-OrdenTrabajo.belongsTo(Usuario, { foreignKey: 'cliente_id', as: 'cliente' });
-OrdenTrabajo.belongsTo(Usuario, { foreignKey: 'tecnico_id', as: 'tecnico' });
-OrdenTrabajo.belongsTo(Usuario, { foreignKey: 'registrador_id', as: 'registrador' });
-
-OrdenTrabajo.hasMany(DetalleOrdenEquipo, { foreignKey: 'orden_trabajo_id' });
-DetalleOrdenEquipo.belongsTo(OrdenTrabajo, { foreignKey: 'orden_trabajo_id' });
-
-DetalleOrdenEquipo.belongsTo(Equipo, { foreignKey: 'equipo_id' });
-
-ComponenteEquipo.hasMany(InspeccionComponente, { foreignKey: 'componente_equipo_id' });
-InspeccionComponente.belongsTo(ComponenteEquipo, { foreignKey: 'componente_equipo_id' });
-
-InspeccionComponente.hasMany(MedicionTecnica, { foreignKey: 'inspeccion_componente_id' });
-InspeccionComponente.hasMany(ResultadoValidacion, { foreignKey: 'inspeccion_componente_id' });
-InspeccionComponente.hasMany(ActividadInspeccion, { foreignKey: 'inspeccion_componente_id' });
-
-ResultadoValidacion.belongsTo(ValidacionTecnica, { foreignKey: 'validacion_tecnica_id' });
-
-// NovedadCorrectiva pertenece a un DetalleOrdenEquipo
-DetalleOrdenEquipo.hasMany(NovedadCorrectiva, {
-  foreignKey: "detalle_orden_equipo_id",
-  as: "novedades"
-});
-NovedadCorrectiva.belongsTo(DetalleOrdenEquipo, {
-  foreignKey: "detalle_orden_equipo_id"
-});
-
-// Insumos pertenecen a NovedadCorrectiva
-NovedadCorrectiva.hasMany(InsumoNovedad, {
-  foreignKey: "novedad_correctiva_id",
-  as: "insumos"
-});
-InsumoNovedad.belongsTo(NovedadCorrectiva, {
-  foreignKey: "novedad_correctiva_id"
-});
-
-// Imagenes del equipo por detalle
-DetalleOrdenEquipo.hasMany(ImagenEquipo, {
-  foreignKey: "detalle_orden_equipo_id",
-  as: "imagenes_equipo"
-});
-ImagenEquipo.belongsTo(DetalleOrdenEquipo, {
-  foreignKey: "detalle_orden_equipo_id"
-});
-
-// Imagenes de las novedades
-NovedadCorrectiva.hasMany(ImagenNovedad, {
-  foreignKey: "novedad_correctiva_id",
-  as: "imagenes_novedad"
-});
-ImagenNovedad.belongsTo(NovedadCorrectiva, {
-  foreignKey: "novedad_correctiva_id"
-});
-
+// ====================
+// Componentes e Inspecciones
+// ====================
 Equipo.hasMany(ComponenteEquipo, { foreignKey: "equipo_id", as: "componentes" });
-ComponenteEquipo.belongsTo(Equipo, { foreignKey: "equipo_id" });
+ComponenteEquipo.belongsTo(Equipo, { foreignKey: "equipo_id", as: "equipo" });
 
+ComponenteEquipo.hasMany(InspeccionComponente, { foreignKey: "componente_equipo_id", as: "inspecciones" });
+InspeccionComponente.belongsTo(ComponenteEquipo, { foreignKey: "componente_equipo_id", as: "componente" });
+
+InspeccionComponente.hasMany(MedicionTecnica, { foreignKey: "inspeccion_componente_id", as: "mediciones" });
+InspeccionComponente.hasMany(ResultadoValidacion, { foreignKey: "inspeccion_componente_id", as: "resultadosValidacion" });
+InspeccionComponente.hasMany(ActividadInspeccion, { foreignKey: "inspeccion_componente_id", as: "actividades" });
+
+ResultadoValidacion.belongsTo(ValidacionTecnica, { foreignKey: "validacion_tecnica_id", as: "validacion" });
+
+// ====================
+// Novedades Correctivas
+// ====================
+DetalleOrdenEquipo.hasMany(NovedadCorrectiva, { foreignKey: "detalle_orden_equipo_id", as: "novedades" });
+NovedadCorrectiva.belongsTo(DetalleOrdenEquipo, { foreignKey: "detalle_orden_equipo_id", as: "detalle" });
+
+// Insumos
+NovedadCorrectiva.hasMany(InsumoNovedad, { foreignKey: "novedad_correctiva_id", as: "insumos" });
+InsumoNovedad.belongsTo(NovedadCorrectiva, { foreignKey: "novedad_correctiva_id", as: "novedad" });
+
+// ====================
+// Imágenes
+// ====================
+DetalleOrdenEquipo.hasMany(ImagenEquipo, { foreignKey: "detalle_orden_equipo_id", as: "imagenesEquipo" });
+ImagenEquipo.belongsTo(DetalleOrdenEquipo, { foreignKey: "detalle_orden_equipo_id", as: "detalle" });
+
+NovedadCorrectiva.hasMany(ImagenNovedad, { foreignKey: "novedad_correctiva_id", as: "imagenesNovedad" });
+ImagenNovedad.belongsTo(NovedadCorrectiva, { foreignKey: "novedad_correctiva_id", as: "novedad" });
+
+// ====================
+// Equipos por cliente
+// ====================
 Equipo.belongsTo(Usuario, { foreignKey: "cliente_id", as: "cliente" });
 Usuario.hasMany(Equipo, { foreignKey: "cliente_id", as: "equipos" });
+
 
 // Exportar todos los modelos y sequelize
 export {

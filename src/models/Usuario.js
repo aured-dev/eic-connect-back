@@ -54,6 +54,10 @@ const Usuario = sequelize.define(
     sucursal_id: {
       type: DataTypes.INTEGER,
     },
+    imagen: {
+      type: DataTypes.TEXT, // en lugar de DataTypes.BLOB
+      allowNull: true
+    },
   },
   {
     tableName: "usuario",

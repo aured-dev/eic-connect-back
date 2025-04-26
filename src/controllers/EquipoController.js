@@ -1,7 +1,5 @@
-// controllers/EquipoController.js
-import Equipo from "../models/Equipo.js";
-import Modelo from "../models/Modelo.js";
-import Marca from "../models/Marca.js";
+import { Marca, Modelo, Equipo } from "../models/index.js";
+import Usuario from "../models/Usuario.js";
 import { camelToSnake } from "../utils/convertParameters.js";
 
 // Obtener todos los equipos
@@ -110,5 +108,37 @@ export const eliminarEquipo = async (req, res) => {
     res.json({ mensaje: "Equipo eliminado correctamente" });
   } catch (error) {
     res.status(500).json({ error: "Error al eliminar el equipo", detalles: error.message });
+  }
+};
+
+export const getEquiposPorCliente = async (req, res) => {
+  const { clienteId } = req.params;
+
+  try {
+    const equipos = await Equipo.findAll({
+      where: { cliente_id: clienteId },
+      include: [
+        {
+          model: Modelo,
+          as: "modelo", // Asegúrate que coincida con el alias de la asociación
+          include: [
+            {
+              model: Marca,
+              as: "marca", // Alias de la asociación entre Modelo y Marca
+              attributes: ["id", "descripcion"] // Campos específicos de Marca
+            }
+          ],
+          attributes: ["id", "descripcion"] // Campos específicos de Modelo
+        }
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "cliente_id", "modelo_id"] // Campos a excluir de Equipo
+      }
+    });
+
+    res.json(equipos);
+  } catch (error) {
+    console.error("Error al obtener equipos del cliente:", error);
+    res.status(500).json({ error: "Error al obtener equipos del cliente" });
   }
 };

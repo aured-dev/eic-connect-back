@@ -5,7 +5,8 @@ import {
   crearEquipo,
   obtenerEquipoPorId,
   actualizarEquipo,
-  eliminarEquipo
+  eliminarEquipo,
+  getEquiposPorCliente
 } from "../controllers/equipoController.js";
 
 const router = express.Router();
@@ -15,5 +16,5 @@ router.post("/", verificarToken, crearEquipo);
 router.get("/:id", verificarToken, obtenerEquipoPorId);
 router.put("/:id", verificarToken, actualizarEquipo);
 router.delete("/:id", verificarToken, eliminarEquipo);
-
+router.get("/por-cliente/:clienteId", getEquiposPorCliente);
 export default router;

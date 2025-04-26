@@ -9,6 +9,7 @@ import sucursalRoutes from "./routes/SucursalRoutes.js"
 import marcaRoutes from "./routes/marcaRoutes.js"
 import modeloRoutes from "./routes/modeloRoutes.js"
 import equipoRoutes from "./routes/equipoRoutes.js"
+import clienteRoutes from "./routes/ClienteRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -24,7 +25,8 @@ app.use("/api/auth", loginRoutes);
 app.use("/api/marca", marcaRoutes);
 app.use("/api/modelo", modeloRoutes);
 app.use("/api/equipo", equipoRoutes);
-// app.use("/api/imagenes", require("./routes/Upload.js"));
+//app.use("/api/imagenes", require("./routes/Upload.js"));
+app.use("/api/clientes", clienteRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

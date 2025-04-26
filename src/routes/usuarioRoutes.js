@@ -6,12 +6,15 @@ import {
   obtenerUsuarioPorId,
   actualizarUsuario,
   eliminarUsuario,
+  obtenerUsuariosTecnicos,
 } from "../controllers/UsuarioController.js";
+import upload from "../middlewares/upload.js";
 
 const router = express.Router();
 
 router.get("/", verificarToken, obtenerUsuarios);
-router.post("/", verificarToken, crearUsuario);
+router.get("/tecnicos", verificarToken, obtenerUsuariosTecnicos);
+router.post("/", verificarToken, upload.single("imagen"), crearUsuario);
 router.get("/:id", verificarToken, obtenerUsuarioPorId);
 router.put("/:id", verificarToken, actualizarUsuario);
 router.delete("/:id", verificarToken, eliminarUsuario);
