@@ -3,6 +3,7 @@ import { camelToSnake } from "../utils/convertParameters.js";
 import sharp from "sharp";
 import fs from "fs";
 import path from "path";
+import bcrypt from "bcryptjs";
 
 // Obtener todos los usuarios
 export const obtenerUsuarios = async (req, res) => {
@@ -52,6 +53,12 @@ export const crearUsuario = async (req, res) => {
 
       // Guardamos la imagen en formato base64 en el campo correspondiente
       datos.imagen = `data:image/jpeg;base64,${imagenBase64}`;
+    }
+
+     if (datos.contrasena) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(datos.contrasena, salt);
+      datos.contrasena = hashedPassword;
     }
 
     // Crear el nuevo usuario en la base de datos

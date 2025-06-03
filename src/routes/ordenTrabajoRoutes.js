@@ -1,0 +1,11 @@
+import express from "express";
+import verificarToken from "../middlewares/authMiddleware.js";
+import { crearOrdenTrabajo, obtenerOrdenesTrabajoTecnico, obtenerOredenesTrabajo } from "../controllers/OrdenTrabajoController.js";
+
+const router = express.Router();
+
+router.post("/", verificarToken, crearOrdenTrabajo);
+router.get("/", verificarToken, obtenerOredenesTrabajo);
+router.get("/tecnico/:tecnico_id", verificarToken, obtenerOrdenesTrabajoTecnico);
+
+export default router;

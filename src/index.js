@@ -10,6 +10,9 @@ import marcaRoutes from "./routes/marcaRoutes.js"
 import modeloRoutes from "./routes/modeloRoutes.js"
 import equipoRoutes from "./routes/equipoRoutes.js"
 import clienteRoutes from "./routes/ClienteRoutes.js";
+import ordenTrabajoRoutes from "./routes/ordenTrabajoRoutes.js";
+import equipoOrdenTrabajoRoutes from "./routes/equipoOrdenTrabajoRoutes.js"
+
 
 dotenv.config();
 const app = express();
@@ -27,7 +30,8 @@ app.use("/api/modelo", modeloRoutes);
 app.use("/api/equipo", equipoRoutes);
 //app.use("/api/imagenes", require("./routes/Upload.js"));
 app.use("/api/clientes", clienteRoutes);
-
+app.use("/api/orden-trabajo", ordenTrabajoRoutes);
+app.use("/api/equipo-orden-trabajo", equipoOrdenTrabajoRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
