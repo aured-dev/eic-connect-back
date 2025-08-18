@@ -1,4 +1,4 @@
-import TipoUsuario from "../models/tipousuario.js";
+import TipoUsuario from "../models/TipoUsuario.js";
 import { camelToSnake } from "../utils/convertParameters.js";
 
 // Obtener todos los usuarios
