@@ -1,4 +1,4 @@
-import Sucursal from "../models/sucursal.js";
+import Sucursal from "../models/Sucursal.js";
 import { camelToSnake } from "../utils/convertParameters.js";
 
 // Obtener todos los sucursals
