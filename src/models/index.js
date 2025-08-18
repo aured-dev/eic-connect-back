@@ -8,7 +8,7 @@ import DatosCliente from "./DatosCliente.js";
 import ValidacionTecnica from "./ValidacionTecnica.js"
 import Sucursal from "./sucursal.js";
 import TipoUsuario from "./tipousuario.js";
-import Cargo from "./cargo.js";
+import Cargo from "./Cargo.js";
 import OrdenTrabajo from "./OrdenTrabajo.js";
 import DetalleOrdenEquipo from "./DetalleOrdenEquipo.js";
 import ComponenteEquipo from "./ComponenteEquipo.js";
