@@ -2,7 +2,7 @@
   "name": "eic-connect-back",
   "version": "1.0.0",
   "type": "module",
-  "main": "src/index.js",
+  "main": "index.js",
   "engines": {
     "node": "20.19.0"
   },
