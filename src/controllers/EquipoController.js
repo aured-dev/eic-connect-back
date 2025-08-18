@@ -142,3 +142,31 @@ export const getEquiposPorCliente = async (req, res) => {
     res.status(500).json({ error: "Error al obtener equipos del cliente" });
   }
 };
+
+export const asignarClienteAEquipo = async (req, res) => {
+  try {
+    const equipoId = req.params.id;
+    const { cliente_id } = req.body;
+
+    if (!cliente_id) {
+      return res.status(400).json({ error: "El cliente_id es obligatorio" });
+    }
+
+    const equipo = await Equipo.findByPk(equipoId);
+    if (!equipo) {
+      return res.status(404).json({ error: "Equipo no encontrado" });
+    }
+
+    // Asignar el cliente
+    equipo.cliente_id = cliente_id;
+    await equipo.save();
+
+    res.status(200).json({ mensaje: "Cliente asignado correctamente", equipo });
+  } catch (error) {
+    res.status(500).json({
+      error: "Error al asignar cliente al equipo",
+      detalles: error.message,
+    });
+  }
+};
+

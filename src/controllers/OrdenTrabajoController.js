@@ -77,6 +77,36 @@ export const obtenerOrdenesTrabajoTecnico = async (req, res) => {
   }
 };
 
+export const obtenerOrdenesTrabajoCliente = async (req, res) => {
+  try {
+    const clienteId = req.params.cliente_id; // O req.query.tecnico_id si lo mandas por query string
+
+    if (!clienteId) {
+      return res.status(400).json({ error: "Debe proporcionar un cliente válido" });
+    }
+
+    const ordenesDeTrabajo = await OrdenTrabajo.findAll({
+      where: { cliente_id: clienteId }, // Filtro por técnico
+      include: [
+        {
+          model: Usuario,
+          as: 'cliente',
+          attributes: ['id', 'nombres', 'apellidos']
+        },
+        {
+          model: Usuario,
+          as: 'tecnico',
+          attributes: ['id', 'nombres', 'apellidos']
+        }
+      ]
+    });
+
+    res.json(ordenesDeTrabajo);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener las órdenes de trabajo", detalles: error.message });
+  }
+};
+
 
 /*/ Obtener un usuario por ID
 export const obtenerUsuarioPorId = async (req, res) => {

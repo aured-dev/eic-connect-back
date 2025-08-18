@@ -8,7 +8,17 @@ import bcrypt from "bcryptjs";
 // Obtener todos los usuarios
 export const obtenerUsuarios = async (req, res) => {
   try {
-    const usuarios = await Usuario.findAll();
+    const usuarios = await Usuario.findAll(
+      {
+        include: [
+          {
+            model: TipoUsuario,
+            as: "tipoUsuario",
+            attributes: ["id", "nombre", "codigo"],
+          },
+        ],
+      }
+    );
     res.json(usuarios);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener los usuarios" });

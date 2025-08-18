@@ -72,7 +72,7 @@ export const eliminarModelo = async (req, res) => {
 export const obtenerModelosPorMarca = async (req, res) => {
   try {
     const modelos = await Modelo.findAll({
-      where: { marca_id: req.params.marcaId }, // Filtrar por marca_id si es necesario
+      where: { marca_id: req.params.marca_id }, // Filtrar por marca_id si es necesario
       include: {
         model: Marca,
         attributes: ["id", "descripcion"], // Seleccionamos solo los campos necesarios de Marca

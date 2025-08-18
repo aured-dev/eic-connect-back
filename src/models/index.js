@@ -22,6 +22,7 @@ import ImagenEquipo from "./ImagenEquipo.js";
 import ImagenNovedad from "./ImagenNovedad.js";
 import Ciudad from "./Ciudad.js";
 import Departamento from "./Departamento.js";
+import ActividadMantenimiento from "./ActividadMantenimiento.js";
 
 // ====================
 // Marca, Modelo, Equipo
@@ -140,6 +141,7 @@ export {
   ImagenEquipo,
   InsumoNovedad,
   NovedadCorrectiva,
+  ActividadMantenimiento
 };
 
 

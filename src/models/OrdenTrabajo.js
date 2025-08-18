@@ -9,6 +9,7 @@ const OrdenTrabajo = sequelize.define("OrdenTrabajo", {
     fecha: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     estado: { type: DataTypes.STRING },
     observaciones: { type: DataTypes.TEXT },
+    tipo: { type: DataTypes.STRING },
 }, {
     tableName: "orden_trabajo",
     timestamps: false,
