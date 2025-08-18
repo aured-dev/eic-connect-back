@@ -8,7 +8,7 @@ import {
   eliminarEquipo,
   getEquiposPorCliente,
   asignarClienteAEquipo
-} from "../controllers/equipoController.js";
+} from "../controllers/EquipoController.js";
 
 const router = express.Router();
 
