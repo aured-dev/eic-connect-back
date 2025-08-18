@@ -1,4 +1,4 @@
-import Cargo from "../models/cargo.js";
+import Cargo from "../models/Cargo.js";
 import { camelToSnake } from "../utils/convertParameters.js";
 
 // Obtener todos los cargos
