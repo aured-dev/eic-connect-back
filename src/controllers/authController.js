@@ -1,7 +1,7 @@
 import Usuario from "../models/Usuario.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import TipoUsuario from "../models/tipousuario.js";
+import TipoUsuario from "../models/TipoUsuario.js";
 
 export const login = async (req, res) => {
   const { usuario, contrasena } = req.body;
