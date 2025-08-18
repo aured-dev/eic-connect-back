@@ -6,8 +6,8 @@ import Modelo from "./Modelo.js";
 import Usuario from "./Usuario.js";
 import DatosCliente from "./DatosCliente.js";
 import ValidacionTecnica from "./ValidacionTecnica.js"
-import Sucursal from "./sucursal.js";
-import TipoUsuario from "./tipousuario.js";
+import Sucursal from "./Sucursal.js";
+import TipoUsuario from "./TipoUsuario.js";
 import Cargo from "./Cargo.js";
 import OrdenTrabajo from "./OrdenTrabajo.js";
 import DetalleOrdenEquipo from "./DetalleOrdenEquipo.js";
