@@ -15,9 +15,11 @@ import { camelToSnake } from "../utils/convertParameters.js";
 export const crearActividadMantenimiento = async (req, res) => {
   try {
 
-    const datos = camelToSnake(req.body.datosOrden);
-
-    const nuevaActividadMatenimiento = await ActividadMatenimiento.create(datos);
+    const { descripcion } = req.body;
+    if (!descripcion) {
+      return res.status(400).json({ error: "La descripción es obligatoria." });
+    }
+    const nuevaActividadMatenimiento = await ActividadMatenimiento.create({ descripcion }); 
 
     res.status(201).json(nuevaActividadMatenimiento);
   } catch (error) {

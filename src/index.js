@@ -15,6 +15,7 @@ import actividadMatenimientoRoutes from "./routes/ActividadMantenimientoRoutes.j
 import equipoOrdenTrabajoRoutes from "./routes/equipoOrdenTrabajoRoutes.js"
 import detalleOrdenTrabajoRoutes from "./routes/detalleOrdenTrabajoRoutes.js"
 import componenteEquipoRoutes from "./routes/componenteEquipoRoutes.js";
+import validacionTecnicaRoutes from "./routes/ValidacionTecnicaRoutes.js"
 
 
 dotenv.config();
@@ -38,6 +39,7 @@ app.use("/api/actividad-mantenimiento", actividadMatenimientoRoutes);
 app.use("/api/equipo-orden-trabajo", equipoOrdenTrabajoRoutes);
 app.use("/api/detalle-orden-trabajo", detalleOrdenTrabajoRoutes );
 app.use("/api/componente-equipo", componenteEquipoRoutes);
+app.use("/api/validacion-tecnica", validacionTecnicaRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);

@@ -11,14 +11,20 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: "postgres",
-    logging: false, // Evita logs innecesarios
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, // 👈 necesario en Render
-      },
-    },
+    logging: false,
+    // 👇 Importante: SIN SSL porque tu servidor no lo soporta
+    dialectOptions: {}
   }
 );
+
+// 🔍 Probar la conexión al iniciar
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("💡 Conexión a la base de datos exitosa");
+  } catch (error) {
+    console.error("❌ Error al conectar a la base de datos:", error.message);
+  }
+})();
 
 export default sequelize;
