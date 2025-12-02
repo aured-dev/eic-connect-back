@@ -11,6 +11,31 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: "postgres",
+    logging: false, // Evita logs innecesarios
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // 👈 necesario en Render
+      },
+    },
+  }
+);
+
+export default sequelize;
+
+/*import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: "postgres",
     logging: false,
     // 👇 Importante: SIN SSL porque tu servidor no lo soporta
     dialectOptions: {}
@@ -27,4 +52,4 @@ const sequelize = new Sequelize(
   }
 })();
 
-export default sequelize;
+export default sequelize;*/
