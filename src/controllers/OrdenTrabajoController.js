@@ -1,4 +1,4 @@
-import { OrdenTrabajo, Sucursal, Usuario } from "../models/index.js";
+import { DetalleOrdenEquipo, OrdenTrabajo, Sucursal, Usuario } from "../models/index.js";
 import { camelToSnake } from "../utils/convertParameters.js";
 
 /*export const obtenerUsuarios = async (req, res) => {
@@ -54,7 +54,6 @@ export const obtenerOredenesTrabajo = async (req, res) => {
 
 export const obtenerOrdenesTrabajoTecnico = async (req, res) => {
   try {
-
     const tecnicoId = req.params.tecnico_id;
 
     if (!tecnicoId) {
@@ -63,6 +62,7 @@ export const obtenerOrdenesTrabajoTecnico = async (req, res) => {
 
     const ordenesDeTrabajo = await OrdenTrabajo.findAll({
       where: { tecnico_id: tecnicoId },
+      order: [['id', 'DESC']],
       include: [
         {
           model: Usuario,
@@ -78,7 +78,13 @@ export const obtenerOrdenesTrabajoTecnico = async (req, res) => {
           model: Sucursal,
           as: 'sucursal',
           attributes: ['id', 'nombre', 'direccion'],
-          required: false   // ← PERMITE QUE SEA NULL
+          required: false
+        },
+        {
+          model: DetalleOrdenEquipo,       // ← modelo de la tabla detalle_orden_equipo
+          as: 'detalles',                   // ← el alias que definiste en la asociación
+          attributes: ['orden_trabajo_id', 'equipo_id'],
+          required: false                  // ← LEFT JOIN, devuelve la orden aunque no tenga equipos
         }
       ]
     });

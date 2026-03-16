@@ -49,10 +49,11 @@ const Usuario = sequelize.define(
     },
     cargo_id: {
       type: DataTypes.INTEGER,  
-      allowNull: false,
+      allowNull: true,
     },
     sucursal_id: {
       type: DataTypes.INTEGER,
+      allowNull: true,
     },
     imagen: {
       type: DataTypes.TEXT, // en lugar de DataTypes.BLOB
