@@ -113,10 +113,12 @@ export const eliminarEquipo = async (req, res) => {
 
 export const getEquiposPorCliente = async (req, res) => {
   const { clienteId } = req.params;
+  const { sucursalId} = req.params;
 
   try {
     const equipos = await Equipo.findAll({
-      where: { cliente_id: clienteId },
+      where: { cliente_id: clienteId, sucursal_id: sucursalId },
+
       include: [
         {
           model: Modelo,
@@ -147,6 +149,7 @@ export const asignarClienteAEquipo = async (req, res) => {
   try {
     const equipoId = req.params.id;
     const { cliente_id } = req.body;
+    const {sucursal_id} = req.body;
 
     if (!cliente_id) {
       return res.status(400).json({ error: "El cliente_id es obligatorio" });
@@ -159,6 +162,7 @@ export const asignarClienteAEquipo = async (req, res) => {
 
     // Asignar el cliente
     equipo.cliente_id = cliente_id;
+    equipo.sucursal_id = sucursal_id; // Asignar la sucursal también
     await equipo.save();
 
     res.status(200).json({ mensaje: "Cliente asignado correctamente", equipo });

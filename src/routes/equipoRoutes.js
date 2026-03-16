@@ -17,6 +17,6 @@ router.post("/", verificarToken, crearEquipo);
 router.get("/:id", verificarToken, obtenerEquipoPorId);
 router.put("/:id", verificarToken, actualizarEquipo);
 router.delete("/:id", verificarToken, eliminarEquipo);
-router.get("/por-cliente/:clienteId", getEquiposPorCliente);
+router.get("/por-cliente/:clienteId/:sucursalId", getEquiposPorCliente);
 router.post("/:id/asignar-cliente", asignarClienteAEquipo);
 export default router;

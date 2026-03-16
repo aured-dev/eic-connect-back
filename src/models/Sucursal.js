@@ -11,6 +11,15 @@ const Sucursal = sequelize.define("Sucursal", {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    direccion: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    }
+    ,
+    telefono: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     ciudad_id: {
         type: DataTypes.INTEGER,
         allowNull: false,

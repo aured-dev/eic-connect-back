@@ -23,6 +23,7 @@ import ImagenNovedad from "./ImagenNovedad.js";
 import Ciudad from "./Ciudad.js";
 import Departamento from "./Departamento.js";
 import ActividadMantenimiento from "./ActividadMantenimiento.js";
+import UsuarioSucursal from "./UsuarioSucursal.js";
 
 // ====================
 // Marca, Modelo, Equipo
@@ -114,6 +115,32 @@ ImagenNovedad.belongsTo(NovedadCorrectiva, { foreignKey: "novedad_correctiva_id"
 // ====================
 Equipo.belongsTo(Usuario, { foreignKey: "cliente_id", as: "cliente" });
 Usuario.hasMany(Equipo, { foreignKey: "cliente_id", as: "equipos" });
+
+
+Usuario.belongsToMany(Sucursal, {
+  through: UsuarioSucursal,
+  foreignKey: "usuario_id",
+  otherKey: "sucursal_id",
+});
+
+Sucursal.belongsToMany(Usuario, {
+  through: UsuarioSucursal,
+  foreignKey: "sucursal_id",
+  otherKey: "usuario_id",
+});
+
+Sucursal.belongsTo(Ciudad, { foreignKey: "ciudad_id" });
+Ciudad.hasMany(Sucursal, { foreignKey: "ciudad_id" });
+
+OrdenTrabajo.belongsTo(Sucursal, {
+  foreignKey: "sucursal_id",
+  as: "sucursal"
+});
+
+Sucursal.hasMany(OrdenTrabajo, {
+  foreignKey: "sucursal_id",
+  as: "ordenes"
+});
 
 
 // Exportar todos los modelos y sequelize

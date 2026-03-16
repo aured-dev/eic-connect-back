@@ -33,6 +33,10 @@ const Equipo = sequelize.define("Equipo", {
   cliente_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
+  },
+  sucursal_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
   }
 }, {
   tableName: "equipo",

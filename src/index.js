@@ -16,6 +16,8 @@ import equipoOrdenTrabajoRoutes from "./routes/equipoOrdenTrabajoRoutes.js"
 import detalleOrdenTrabajoRoutes from "./routes/detalleOrdenTrabajoRoutes.js"
 import componenteEquipoRoutes from "./routes/componenteEquipoRoutes.js";
 import validacionTecnicaRoutes from "./routes/ValidacionTecnicaRoutes.js"
+import usuarioSucursalRoutes from "./routes/usuarioSucursalRoutes.js";
+import CiudadRoutes from "./routes/CiudadRoutes.js";
 
 
 dotenv.config();
@@ -40,6 +42,8 @@ app.use("/api/equipo-orden-trabajo", equipoOrdenTrabajoRoutes);
 app.use("/api/detalle-orden-trabajo", detalleOrdenTrabajoRoutes );
 app.use("/api/componente-equipo", componenteEquipoRoutes);
 app.use("/api/validacion-tecnica", validacionTecnicaRoutes);
+app.use("/api/sucursales-clientes", usuarioSucursalRoutes);
+app.use("/api/ciudades", CiudadRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);

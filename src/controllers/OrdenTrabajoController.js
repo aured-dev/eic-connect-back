@@ -1,4 +1,4 @@
-import { OrdenTrabajo, Usuario } from "../models/index.js";
+import { OrdenTrabajo, Sucursal, Usuario } from "../models/index.js";
 import { camelToSnake } from "../utils/convertParameters.js";
 
 /*export const obtenerUsuarios = async (req, res) => {
@@ -39,6 +39,12 @@ export const obtenerOredenesTrabajo = async (req, res) => {
           as: 'tecnico',
           attributes: ['id', 'nombres', 'apellidos']
         }
+        ,
+        {
+          model: Sucursal,
+          as: 'sucursal',
+          attributes: ['id', 'nombre', 'direccion']
+        }
       ]
     });
     res.json(ordenesDeTrabajo);
@@ -49,14 +55,15 @@ export const obtenerOredenesTrabajo = async (req, res) => {
 
 export const obtenerOrdenesTrabajoTecnico = async (req, res) => {
   try {
-    const tecnicoId = req.params.tecnico_id; // O req.query.tecnico_id si lo mandas por query string
+
+    const tecnicoId = req.params.tecnico_id;
 
     if (!tecnicoId) {
       return res.status(400).json({ error: "Debe proporcionar un técnico_id válido" });
     }
 
     const ordenesDeTrabajo = await OrdenTrabajo.findAll({
-      where: { tecnico_id: tecnicoId }, // Filtro por técnico
+      where: { tecnico_id: tecnicoId },
       include: [
         {
           model: Usuario,
@@ -67,13 +74,23 @@ export const obtenerOrdenesTrabajoTecnico = async (req, res) => {
           model: Usuario,
           as: 'tecnico',
           attributes: ['id', 'nombres', 'apellidos']
+        },
+        {
+          model: Sucursal,
+          as: 'sucursal',
+          attributes: ['id', 'nombre', 'direccion'],
+          required: false   // ← PERMITE QUE SEA NULL
         }
       ]
     });
 
     res.json(ordenesDeTrabajo);
+
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener las órdenes de trabajo", detalles: error.message });
+    res.status(500).json({
+      error: "Error al obtener las órdenes de trabajo",
+      detalles: error.message
+    });
   }
 };
 
