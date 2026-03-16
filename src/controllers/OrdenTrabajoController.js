@@ -10,7 +10,6 @@ import { camelToSnake } from "../utils/convertParameters.js";
   }
 };
 */
-
 export const crearOrdenTrabajo = async (req, res) => {
   try {
 
